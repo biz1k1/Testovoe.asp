@@ -1,0 +1,41 @@
+﻿@model Web.ViewModel.UserDishesModel;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<head>
+</head>
+
+
+<body>
+    <div id="dialog">
+        @{
+            await Html.RenderPartialAsync("DishDialog", Model.DishEntity);
+        }
+    </div>
+
+<form asp-action="Get" asp-controller="User">
+    <div class="container">
+        <div class="container">
+            <h2 class="text-primary">User list</h2>
+        </div>
+        <div >
+            <label asp-for="userEntity.Name">Name</label>
+            <input type="text" class="form-control " />
+        </div>
+        <div >
+            <label asp-for="userEntity.Email">Email</label>
+            <input type="text" class="form-control" />
+        </div>
+        <div>
+                    <select id="dishs">
+                        @foreach (var item in Model.Dish)
+                        {
+                            <option>@item.Name</option>
+                        }
+                    </select>
+        </div></di>
+    </div>
+        <button type="submit">Рассказать, что я ем </button>
+</form>
+</body>
