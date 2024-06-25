@@ -22,21 +22,6 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DishEntityUserEntity", b =>
-                {
-                    b.Property<Guid>("DishesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DishesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("DishEntityUserEntity");
-                });
-
             modelBuilder.Entity("Domain.Entity.DishEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -50,6 +35,30 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Dishes");
+                });
+
+            modelBuilder.Entity("Domain.Entity.EatEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DishId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("EatTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DishId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Eats");
                 });
 
             modelBuilder.Entity("Domain.Entity.UserEntity", b =>
@@ -71,19 +80,33 @@ namespace Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DishEntityUserEntity", b =>
+            modelBuilder.Entity("Domain.Entity.EatEntity", b =>
                 {
-                    b.HasOne("Domain.Entity.DishEntity", null)
-                        .WithMany()
-                        .HasForeignKey("DishesId")
+                    b.HasOne("Domain.Entity.DishEntity", "Dish")
+                        .WithMany("Eat")
+                        .HasForeignKey("DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entity.UserEntity", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
+                    b.HasOne("Domain.Entity.UserEntity", "User")
+                        .WithMany("Eat")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entity.DishEntity", b =>
+                {
+                    b.Navigation("Eat");
+                });
+
+            modelBuilder.Entity("Domain.Entity.UserEntity", b =>
+                {
+                    b.Navigation("Eat");
                 });
 #pragma warning restore 612, 618
         }

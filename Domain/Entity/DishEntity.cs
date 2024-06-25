@@ -10,6 +10,7 @@ namespace Domain.Entity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<UserEntity> Users { get; set; } = [];
+        public List<UserEntity> User { get; set; } = [];
+        public List<EatEntity> Eat { get; set; } = [];
     }
 }

@@ -37,40 +37,47 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DishEntityUserEntity",
+                name: "Eats",
                 columns: table => new
                 {
-                    DishesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DishId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EatTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DishEntityUserEntity", x => new { x.DishesId, x.UsersId });
+                    table.PrimaryKey("PK_Eats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DishEntityUserEntity_Dishes_DishesId",
-                        column: x => x.DishesId,
+                        name: "FK_Eats_Dishes_DishId",
+                        column: x => x.DishId,
                         principalTable: "Dishes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DishEntityUserEntity_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_Eats_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DishEntityUserEntity_UsersId",
-                table: "DishEntityUserEntity",
-                column: "UsersId");
+                name: "IX_Eats_DishId",
+                table: "Eats",
+                column: "DishId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Eats_UserId",
+                table: "Eats",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DishEntityUserEntity");
+                name: "Eats");
 
             migrationBuilder.DropTable(
                 name: "Dishes");

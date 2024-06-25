@@ -3,35 +3,73 @@ using Infrastructure.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Net.Http.Json;
+using System.Text.Json.Serialization;
+using Web.Model;
+using Web.Services;
 using Web.ViewModel;
 
 namespace Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly DataContext _dataContext;
+        
 
-        public HomeController(ILogger<HomeController> logger, DataContext data)
+        public HomeController( DataContext data)
         {
-            _logger = logger;
             _dataContext = data;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var viewModel = new UserDishesModel()
+            //var user = new UserEntity()
+            //{
+            //    Name = "Nikita",
+            //    Email = "Nikita",
+
+            //};
+            //_dataContext.Add(user);
+            //_dataContext.SaveChanges();
+
+            var viewModel = new UserDishesViewModel()
             {
-                User = _dataContext.Users.ToList(),
-                Dish = _dataContext.Dishes.ToList(),
+                User = await _dataContext.Users.ToListAsync(),
+                Dish = await _dataContext.Dishes.ToListAsync(),
             };
+
+            var lenta = _dataContext.Eats
+             .Select(x => new EatModel
+             {
+                 EatTime = x.EatTime,
+                 UserName = x.User.Name,
+                 DishName = x.Dish.Name,
+                 UserEmail = x.User.Email,
+             })
+             .TakeLast(10)
+             .OrderByDescending(x => x.EatTime);
+
+            viewModel.UserDishModel = new Model.UserDishModel();
             return View(viewModel);
         }
-        public IActionResult Dialog()
+        // написал запрос для ленты здесь. Изначально запрос был в UserController,
+        // но почему то значение в viewModel.Lenta не передавалось, было пустое значение
+        public async Task<IActionResult> Page2(UserEntityWithUserDbViewModel viewModel)
         {
-            var dishModel = new DishEntity();
-            return View("dialog",dishModel);
-        }
+            var lenta = await _dataContext.Eats
+              .Select(x => new EatModel
+              {
+                  EatTime = x.EatTime,
+                  UserName = x.User.Name,
+                  DishName = x.Dish.Name,
+                  UserEmail = x.User.Email,
+              })
+              .OrderByDescending(x=>x.EatTime)
+              .Take(15)
+              .ToListAsync();
 
+            viewModel.Lenta = lenta;
+            return View(viewModel);
+        }
     }
 }

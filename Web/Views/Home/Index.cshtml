@@ -1,41 +1,61 @@
-﻿@model Web.ViewModel.UserDishesModel;
+﻿@model Web.ViewModel.UserDishesViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
+
 <head>
+    <link rel="stylesheet" type="text/css" href="~/css/Index.css">
 </head>
-
-
 <body>
-    <div id="dialog">
-        @{
-            await Html.RenderPartialAsync("DishDialog", Model.DishEntity);
-        }
+    <div class="buttonStyle" style="margin-bottom:20px">
+
+        <div>
+            @{
+                await Html.RenderPartialAsync("DishDialog", Model.DishModel);
+            }
+        </div>
     </div>
 
-<form asp-action="Get" asp-controller="User">
-    <div class="container">
-        <div class="container">
-            <h2 class="text-primary">User list</h2>
-        </div>
-        <div >
-            <label asp-for="userEntity.Name">Name</label>
-            <input type="text" class="form-control " />
-        </div>
-        <div >
-            <label asp-for="userEntity.Email">Email</label>
-            <input type="text" class="form-control" />
-        </div>
-        <div>
-                    <select id="dishs">
+<div>
+        <form asp-controller="User" asp-action="Post" method="post">
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">Имя</label>
+                </div>
+                <div class="col-75">
+                    <input asp-for="UserDishModel.Name" type="text" class="form-control " name="UserName" / required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="lname">Почта</label>
+                </div>
+                <div class="col-75">
+                    <input asp-for="UserDishModel.Email" type="text" class="form-control" name="UserEmail" / required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="country">Блюда</label>
+                </div>
+                <div class="col-75">
+                    <select  id="country" name="DishName">
                         @foreach (var item in Model.Dish)
                         {
                             <option>@item.Name</option>
                         }
                     </select>
-        </div></di>
-    </div>
-        <button type="submit">Рассказать, что я ем </button>
-</form>
+                </div>
+            </div>
+            <div >
+                <button class="button-9" role="button" type="submit"> Рассказать о том, что я ем </button>
+            </div>
+       
+        </form>
+</div>
+
+
+
+
 </body>

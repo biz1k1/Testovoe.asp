@@ -1,19 +1,21 @@
 using Application;
 using Infrastructure;
 using Web;
+using Web.Infrastracture;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
+builder.Services.AddWebServices();
+builder.Services.AddControllersWithViews(option =>
+{
+    option.ModelBinderProviders.Insert(0, new CustomModelBinderProvider());
+});
 builder.Services
     .AddInfrastructureServices(builder.Configuration)
     .AddApplicationServices();
 
-
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

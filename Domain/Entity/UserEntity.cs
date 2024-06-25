@@ -11,6 +11,7 @@ namespace Domain.Entity
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public List<DishEntity> Dishes { get; set; } = [];
+        public List<DishEntity> Dish { get; set; } = [];
+        public List<EatEntity> Eat { get; set; } = [];
     }
 }

@@ -1,11 +1,7 @@
 ﻿using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Infrastructure.Configuration
 {
@@ -14,10 +10,7 @@ namespace Infrastructure.Configuration
         public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.
-                HasMany(x => x.Dishes)
-                .WithMany(x => x.Users);
+            builder.Property(x => x.Id).ValueGeneratedOnAdd(); 
         }
     }
     public class DishConfiguration : IEntityTypeConfiguration<DishEntity>
@@ -26,7 +19,25 @@ namespace Infrastructure.Configuration
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            builder
+                .HasMany(x => x.User)
+                .WithMany(x => x.Dish)
+                .UsingEntity<EatEntity>(
+                x => x.HasOne(x => x.User).WithMany(x => x.Eat),
+                x => x.HasOne(x => x.Dish).WithMany(x => x.Eat));
+
+
+
         }
+        public class EatConfiguration : IEntityTypeConfiguration<EatEntity>
+        {
+            public void Configure(EntityTypeBuilder<EatEntity> builder)
+            {
+                builder.HasKey(x => x.Id);
+                
+                builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            }
+        }
+
     }
-    
 }

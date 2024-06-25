@@ -2,6 +2,8 @@
 using Infrastructure.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Web.Model;
+using Web.ViewModel;
 
 namespace Web.Controllers
 {
@@ -15,16 +17,16 @@ namespace Web.Controllers
         [HttpPost] 
         public async Task<IActionResult> Create(DishEntity dishEntity)
         {
-            var obj = dishEntity;
             var dishes = await _dataContext.Dishes.FirstOrDefaultAsync(x => x.Name == dishEntity.Name);
             if (dishes != null)
             {
                 TempData["ErrorMessage"] = "Это блюдо уже кто-то когда-то ел";
                 return PartialView("/Views/Home/DishDialog.cshtml");
             }
+
             await _dataContext.AddAsync(dishEntity);
             await _dataContext.SaveChangesAsync();
-            return RedirectToAction("~/Views/Home/Index.cshtml");
+            return LocalRedirect("~/Home/Index");
         }
     }
 }
