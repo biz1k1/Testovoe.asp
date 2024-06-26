@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Web.Services;
 
 namespace Web

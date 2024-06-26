@@ -49,6 +49,7 @@ namespace Web.Controllers
              .TakeLast(10)
              .OrderByDescending(x => x.EatTime);
 
+
             viewModel.UserDishModel = new Model.UserDishModel();
             return View(viewModel);
         }
@@ -71,5 +72,18 @@ namespace Web.Controllers
             viewModel.Lenta = lenta;
             return View(viewModel);
         }
+
+
+
+        public PartialViewResult LoadPartialView()
+        {
+            var model = new UserDishModel
+            {
+            };
+
+            return PartialView("Register", model);
+        }
     }
+
+
 }

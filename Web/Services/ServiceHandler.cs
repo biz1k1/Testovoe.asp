@@ -18,16 +18,8 @@ namespace Web.Services
         }
         public async Task<int> GetNumberOfDishes(Guid DishId)
         {
-            //var query = await _dataContext.Eats
-            //    .AsNoTracking()
-            //    .Select(x => new UserEntityWithUserDbViewModel
-            //    {
-            //        EatTime=x.EatTime,
-            //        UserName=x.User.Name,
-            //        DishName=x.Dish.Name,  
-            //    }).ToListAsync();
 
-            var eatList = await _dataContext.Eats.Take(10).ToListAsync();
+            var eatList = await _dataContext.Eats.ToListAsync();
             return _numberOfDishesService.GetNumber(eatList,DishId);
         }
     }

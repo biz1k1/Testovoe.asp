@@ -6,10 +6,11 @@
 @{
 }
 <body>
+<div id="popup">
 
-<form asp-action="Create" asp-controller="Dish">
+<form asp-action="Create" asp-controller="Dish" data-ajax-complete>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+<button id="2" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     Добавить новое блюдо
 </button>
 
@@ -17,7 +18,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Диалоговое окно</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Добавление нового блюда</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -29,20 +30,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 <button type="submit" value="Save" class="btn btn-primary form-controll">Добавить</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>
 </div>
 
 </form>
-<div>
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <dialog id="my-dialog">
-                <button type="button">Закрыть</button>
-            </dialog>
-        }
 </div>
 </body>

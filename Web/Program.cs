@@ -2,6 +2,7 @@ using Application;
 using Infrastructure;
 using Web;
 using Web.Infrastracture;
+using Web.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,6 @@ builder.Services.AddControllersWithViews(option =>
 builder.Services
     .AddInfrastructureServices(builder.Configuration)
     .AddApplicationServices();
-
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

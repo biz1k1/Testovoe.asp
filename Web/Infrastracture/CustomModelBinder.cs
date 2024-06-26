@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Web.Model;
 
 namespace Web.Infrastracture
@@ -34,8 +35,9 @@ namespace Web.Infrastracture
             };
 
             bindingContext.Result = ModelBindingResult.Success(result);
-
+            
             return Task.CompletedTask;
         }
+        
     }
 }

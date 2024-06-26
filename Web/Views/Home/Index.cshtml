@@ -6,25 +6,37 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="~/css/Index.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Error.css">
 </head>
 <body>
-    <div class="buttonStyle" style="margin-bottom:20px">
+    <div id="Button1">
 
-        <div>
-            @{
-                await Html.RenderPartialAsync("DishDialog", Model.DishModel);
+        <div class="buttonStyle" style="margin-bottom:20px">
+
+            <div id="partial1" >
+                @{
+                    await Html.RenderPartialAsync("DishDialog", Model.DishModel);
+                }
+            </div>
+            <div id="error-message">
+
+            @if (TempData.ContainsKey("ErrorMessage"))
+            {
+                <div class="error-message">@TempData["ErrorMessage"]</div>
             }
+            </div>
         </div>
     </div>
 
-<div>
-        <form asp-controller="User" asp-action="Post" method="post">
+
+    <div id="FormPost">
+        <form asp-controller="User" asp-action="Post" method="post" >
             <div class="row">
                 <div class="col-25">
                     <label for="fname">Имя</label>
                 </div>
                 <div class="col-75">
-                    <input asp-for="UserDishModel.Name" type="text" class="form-control " name="UserName" / required>
+                    <input asp-for="UserDishModel.Name" type="text" class="form-control " name="UserName" required />
                 </div>
             </div>
             <div class="row">
@@ -32,7 +44,7 @@
                     <label for="lname">Почта</label>
                 </div>
                 <div class="col-75">
-                    <input asp-for="UserDishModel.Email" type="text" class="form-control" name="UserEmail" / required>
+                    <input asp-for="UserDishModel.Email" type="text" class="form-control" name="UserEmail" required/ >
                 </div>
             </div>
             <div class="row">
@@ -40,7 +52,8 @@
                     <label for="country">Блюда</label>
                 </div>
                 <div class="col-75">
-                    <select  id="country" name="DishName">
+                    <select id="mySelect" name="DishName" required>
+                        <option value="" disabled selected>Выберите Блюдо</option>
                         @foreach (var item in Model.Dish)
                         {
                             <option>@item.Name</option>
@@ -53,8 +66,7 @@
             </div>
        
         </form>
-</div>
-
+    </div>
 
 
 

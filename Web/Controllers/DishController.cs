@@ -18,10 +18,10 @@ namespace Web.Controllers
         public async Task<IActionResult> Create(DishEntity dishEntity)
         {
             var dishes = await _dataContext.Dishes.FirstOrDefaultAsync(x => x.Name == dishEntity.Name);
-            if (dishes != null)
+            if (dishes == null)
             {
                 TempData["ErrorMessage"] = "Это блюдо уже кто-то когда-то ел";
-                return PartialView("/Views/Home/DishDialog.cshtml");
+                return RedirectToAction("Index","Home");
             }
 
             await _dataContext.AddAsync(dishEntity);
